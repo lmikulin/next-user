@@ -1,14 +1,14 @@
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
-import LoginForm from './form';
+import RegisterForm from './form';
 
-export default async function LoginUser() {
+export default async function RegisterUser() {
   const session = await getServerSession();
   if (session) {
     redirect('/');
   }
 
   return (
-    <LoginForm />
+    <RegisterForm />
   )
 };
