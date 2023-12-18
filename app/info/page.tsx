@@ -1,7 +1,7 @@
 'use client';
 
 import { FormEvent } from 'react';
-import { Box, Stack, Heading, Text } from '@chakra-ui/react';
+import { Card, Stack, Box, Button, Heading, FormControl, FormLabel, Textarea, CardBody, Spacer } from '@chakra-ui/react';
 
 // TODO: error handling
 export default function JobTitle() {
@@ -17,18 +17,25 @@ export default function JobTitle() {
 
     console.log('updated user info response', response)
   };
+
   return (
-    <Box pt={1} bg="gray.200">
-      <Stack direction="column" align="center" justify="left" py={10}>
-        <Heading>Please enter your job title</Heading>
-        <form  onSubmit={handleSubmit}>
-          <Text>
-            Job Title:
-          </Text>
-          <input type="text" name="info" />
-          <button type="submit">Save</button>
+    <Card maxW='xl'>
+      <CardBody>
+        <form onSubmit={handleSubmit}>
+          <Stack spacing="4">
+            <Heading size='sm'>
+              Please enter your job title
+            </Heading>
+            <FormControl>
+              <FormLabel>Job Title</FormLabel>
+              <Textarea name="info" />
+            </FormControl>
+            <Box>
+              <Button colorScheme='facebook' type="submit">Save</Button>
+            </Box>
+          </Stack>
         </form>
-      </Stack>
-    </Box>
+      </CardBody>
+    </Card>
   )
 }

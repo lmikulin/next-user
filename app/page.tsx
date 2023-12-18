@@ -1,25 +1,11 @@
 import { getServerSession } from 'next-auth';
-import Link from 'next/link';
-import JobTitle from './info/page';
-import Logout from './logout';
+import { WelcomePage, LandingPage } from './components/home';
 
 export default async function Home() {
   const session = await getServerSession();
   if (!session) {
-    return (
-      <>
-        <Link href="/login">Login</Link>
-        <Link href="/register">Register</Link>
-      </>
-    )
+    return <LandingPage />
   }
 
-  return (
-    <>
-      <p>Welcome {session?.user?.name}</p>
-      <Link href="/">Home</Link>
-      <Logout />
-      <JobTitle />
-    </>
-  )
+  return <WelcomePage user={session?.user?.name || ''} />
 }
