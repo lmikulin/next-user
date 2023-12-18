@@ -1,11 +1,31 @@
-import { getServerSession } from 'next-auth';
-import { WelcomePage, LandingPage } from './components/home';
+'use client'
 
-export default async function Home() {
-  const session = await getServerSession();
-  if (!session) {
-    return <LandingPage />
-  }
+import { Button, ButtonGroup, useDisclosure } from '@chakra-ui/react';
+import NavBar from './components/navbar';
+import RegisterForm from './components/register';
+import LoginForm from './components/login';
 
-  return <WelcomePage user={session?.user?.name || ''} />
+export default function LandingPage() {
+  const {
+    isOpen: isOpenLogin,
+    onOpen: onOpenLogin,
+    onClose: onCloseLogin
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenRegister,
+    onOpen: onOpenRegister,
+    onClose: onCloseRegister
+  } = useDisclosure();
+
+  return (
+    <NavBar>
+      <ButtonGroup gap="2">
+        <Button colorScheme='facebook' onClick={onOpenLogin} variant='outline'>Login</Button>
+        <Button colorScheme='facebook' onClick={onOpenRegister}>Sign Up</Button>
+      </ButtonGroup>
+      <LoginForm isOpen={isOpenLogin} onClose={onCloseLogin} />
+      <RegisterForm isOpen={isOpenRegister} onClose={onCloseRegister} />
+    </NavBar>
+  )
 }

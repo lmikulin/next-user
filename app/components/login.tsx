@@ -34,7 +34,7 @@ export default function LoginForm({ isOpen, onClose }: LoginFormProps) {
     });
 
     if (response?.ok) {
-      router.push('/');
+      router.push('/welcome');
       router.refresh();
     }
   };

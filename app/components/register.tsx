@@ -43,7 +43,7 @@ export default function RegisterForm({ isOpen, onClose }: RegisterFormProps) {
       });
 
       if(loginResponse?.ok) {
-        router.push('/');
+        router.push('/welcome');
         router.refresh();
       }
     }
