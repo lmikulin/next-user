@@ -16,6 +16,7 @@ import {
   ButtonGroup
 } from '@chakra-ui/react';
 import { updateUser } from './action';
+import SubmitButton from '../components/button';
 
 interface InfoFormProps {
   username: string | undefined
@@ -51,9 +52,9 @@ export default function InfoForm({ username }: InfoFormProps) {
 
             <ModalFooter>
               <ButtonGroup>
-                <Button colorScheme='facebook' type="submit" gap="4">
+                <SubmitButton colorScheme='facebook' type="submit" mr="4">
                   Save
-                </Button>
+                </SubmitButton>
                 <Button colorScheme='facebook' variant='outline' onClick={onClose}>Cancel</Button>
               </ButtonGroup>
             </ModalFooter>

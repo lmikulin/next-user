@@ -1,7 +1,7 @@
 'use client'
 
+import { useState, FormEvent } from 'react';
 import { signIn } from 'next-auth/react';
-import { FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Modal,
@@ -14,7 +14,8 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Button
+  Button,
+  ButtonGroup
 } from '@chakra-ui/react';
 
 interface LoginFormProps {
@@ -23,15 +24,18 @@ interface LoginFormProps {
 }
 
 export default function LoginForm({ isOpen, onClose }: LoginFormProps) {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
     const formData = new FormData(event.currentTarget);
+    setIsLoading(true);
     const response = await signIn('credentials', {
       username: formData.get('username'),
       redirect: false
     });
+    setIsLoading(false);
 
     if (response?.ok) {
       router.push('/welcome');
@@ -54,10 +58,12 @@ export default function LoginForm({ isOpen, onClose }: LoginFormProps) {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme='blue' mr={3} type="submit">
-              Login
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <ButtonGroup>
+              <Button isLoading={isLoading} colorScheme='facebook' type="submit" mr="4">
+                Login
+              </Button>
+              <Button colorScheme='facebook' variant='outline' onClick={onClose}>Cancel</Button>
+            </ButtonGroup>
           </ModalFooter>
         </form>
       </ModalContent>

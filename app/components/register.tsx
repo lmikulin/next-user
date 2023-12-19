@@ -1,7 +1,7 @@
 'use client'
 
+import { useState, FormEvent } from 'react';
 import { signIn } from 'next-auth/react';
-import { FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Modal,
@@ -14,7 +14,8 @@ import {
   FormControl,
   FormLabel,
   Input,
-  Button
+  Button,
+  ButtonGroup
 } from '@chakra-ui/react';
 
 interface RegisterFormProps {
@@ -23,12 +24,14 @@ interface RegisterFormProps {
 }
 
 export default function RegisterForm({ isOpen, onClose }: RegisterFormProps) {
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
     const formData = new FormData(event.currentTarget);
     const username = formData.get('username');
+    setIsLoading(true);
     const registerResponse = await fetch(`/api/auth/register`, {
       method: 'POST',
       body: JSON.stringify({
@@ -41,8 +44,9 @@ export default function RegisterForm({ isOpen, onClose }: RegisterFormProps) {
         username,
         redirect: false
       });
+      setIsLoading(false);
 
-      if(loginResponse?.ok) {
+      if (loginResponse?.ok) {
         router.push('/welcome');
         router.refresh();
       }
@@ -64,10 +68,12 @@ export default function RegisterForm({ isOpen, onClose }: RegisterFormProps) {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme='blue' mr={3} type="submit">
-              Register
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <ButtonGroup>
+              <Button isLoading={isLoading} colorScheme='facebook' type="submit" mr="4">
+                Register
+              </Button>
+              <Button colorScheme='facebook' variant='outline' onClick={onClose}>Cancel</Button>
+            </ButtonGroup>
           </ModalFooter>
         </form>
       </ModalContent>
