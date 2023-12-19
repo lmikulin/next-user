@@ -15,7 +15,8 @@ import {
   FormLabel,
   Input,
   Button,
-  ButtonGroup
+  ButtonGroup,
+  FormErrorMessage
 } from '@chakra-ui/react';
 
 interface LoginFormProps {
@@ -25,6 +26,7 @@ interface LoginFormProps {
 
 export default function LoginForm({ isOpen, onClose }: LoginFormProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('')
   const router = useRouter();
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -35,12 +37,13 @@ export default function LoginForm({ isOpen, onClose }: LoginFormProps) {
       username: formData.get('username'),
       redirect: false
     });
-    setIsLoading(false);
 
     if (response?.ok) {
       router.push('/welcome');
       router.refresh();
     }
+    setIsLoading(false);
+    setError(response?.error as string);
   };
 
   return (
@@ -51,12 +54,12 @@ export default function LoginForm({ isOpen, onClose }: LoginFormProps) {
         <ModalCloseButton />
         <form onSubmit={handleSubmit}>
           <ModalBody pb={6}>
-            <FormControl>
+            <FormControl isInvalid={!!error}>
               <FormLabel>Username</FormLabel>
               <Input placeholder="username" name="username" />
+              {error && <FormErrorMessage>Login error: {error}</FormErrorMessage>}
             </FormControl>
           </ModalBody>
-
           <ModalFooter>
             <ButtonGroup>
               <Button isLoading={isLoading} colorScheme='facebook' type="submit" mr="4">

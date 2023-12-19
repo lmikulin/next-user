@@ -6,9 +6,6 @@ const handler = NextAuth({
   session: {
     strategy: 'jwt'
   },
-  pages: {
-    signIn: '/login'
-  },
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
